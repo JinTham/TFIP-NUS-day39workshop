@@ -90,7 +90,7 @@ public class MarvelCharacter implements Serializable{
         return mcList;
     }
 
-    public static MarvelCharacter createFormCache(String json) throws IOException {
+    public static MarvelCharacter createFromCache(String json) throws IOException {
         MarvelCharacter mc = new MarvelCharacter();
         try (InputStream is = new ByteArrayInputStream(json.getBytes())) {
             JsonReader jrd = Json.createReader(is);
