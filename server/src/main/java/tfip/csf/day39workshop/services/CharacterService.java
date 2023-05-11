@@ -48,10 +48,12 @@ public class CharacterService {
     }
 
     public Comment insertComment(Comment c) {
+        this.charCommentRepo.SQLinsertComment(c);
         return this.charCommentRepo.insertComment(c);
     }
 
     public List<Comment> getAllComments(String charId) {
-        return this.charCommentRepo.getAllComment(charId);
+        return this.charCommentRepo.SQLgetAllComments(charId);
+        //return this.charCommentRepo.getAllComment(charId);
     }
 }
