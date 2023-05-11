@@ -62,13 +62,13 @@ public class MarvelCharacter implements Serializable{
         this.comments = comments;
     }
 
-    public static MarvelCharacter createJson(JsonObject jo) {
+    public static MarvelCharacter JSONtoObject(JsonObject jo) {
         MarvelCharacter mc = new MarvelCharacter();
         JsonObject t = jo.getJsonObject("thumbnail");
         String path = t.getString("path");
         String fileExt = t.getString("extension");
         mc.setId(jo.getJsonNumber("id").intValue());
-        mc.setName(jo.getString(fileExt));
+        mc.setName(jo.getString("name"));
         mc.setDescription(jo.getString("description"));
         mc.setPhoto(path+"."+fileExt);
         return mc;
@@ -83,7 +83,7 @@ public class MarvelCharacter implements Serializable{
             if (joo.getJsonArray("results") != null) {
                 mcList = joo.getJsonArray("results").stream()
                             .map(v-> (JsonObject)v)
-                            .map(v-> MarvelCharacter.createJson(v))
+                            .map(v-> MarvelCharacter.JSONtoObject(v))
                             .toList();
             }
         }

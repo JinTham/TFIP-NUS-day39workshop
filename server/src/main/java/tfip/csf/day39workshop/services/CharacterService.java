@@ -26,8 +26,8 @@ public class CharacterService {
     @Autowired
     private RedisTemplate<String,String> redisTemplate;
 
-    public Optional<List<MarvelCharacter>> getCharacters (String characterName, Integer limit, Integer offset) {
-        return this.marvelApiSvc.getCharacters(characterName, limit, offset);
+    public Optional<List<MarvelCharacter>> getCharacters (String charName, Integer limit, Integer offset) {
+        return this.marvelApiSvc.getCharacters(charName, limit, offset);
     }
 
     public MarvelCharacter getCharacterDetails (String charId) throws IOException {

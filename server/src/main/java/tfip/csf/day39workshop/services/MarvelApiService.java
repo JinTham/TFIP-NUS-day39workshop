@@ -37,24 +37,23 @@ public class MarvelApiService {
         return result;
     }
 
-    public Optional<List<MarvelCharacter>> getCharacters(String characterName, Integer limit, Integer offset) {
-        ResponseEntity<String> resp = null;
+    public Optional<List<MarvelCharacter>> getCharacters(String charName, Integer limit, Integer offset) {
         List<MarvelCharacter> mcList = null;
         String[] hash = getMarvelApiHash();
 
         String marvelApiCharsUrl = UriComponentsBuilder
                                     .fromUriString(marvelApiUrl+"characters")
-                                    .queryParam("ts",hash[0])
+                                    .queryParam("ts",hash[0].trim())
                                     .queryParam("apikey",marvelApiPubKey.trim())
                                     .queryParam("hash",hash[1])
-                                    .queryParam("nameStartsWith",characterName.replaceAll(" ","+"))
-                                    .queryParam("offset", offset)
+                                    .queryParam("nameStartsWith",charName.replaceAll(" ","+"))
                                     .queryParam("limit",limit)
+                                    .queryParam("offset", offset)
                                     .toUriString();
         RestTemplate restTemplate = new RestTemplate();
-        resp = restTemplate.getForEntity(marvelApiCharsUrl,String.class);
+        ResponseEntity<String> resp = restTemplate.getForEntity(marvelApiCharsUrl,String.class);
         try {
-            mcList = MarvelCharacter.create(resp.getBody());
+           mcList = MarvelCharacter.create(resp.getBody());
         } catch (IOException e){
             e.printStackTrace();
         }
@@ -66,7 +65,6 @@ public class MarvelApiService {
     }
 
     public Optional<MarvelCharacter> getCharacterDetails(String charId) {
-        ResponseEntity<String> resp = null;
         MarvelCharacter mc = null;
         String[] hash = getMarvelApiHash();
 
@@ -77,7 +75,7 @@ public class MarvelApiService {
                                     .queryParam("hash",hash[1])
                                     .toUriString();
         RestTemplate restTemplate = new RestTemplate();
-        resp = restTemplate.getForEntity(marvelApiCharsUrl,String.class);
+        ResponseEntity<String> resp = restTemplate.getForEntity(marvelApiCharsUrl,String.class);
         try {
             List<MarvelCharacter> mcList = MarvelCharacter.create(resp.getBody());
             mc = mcList.get(0);

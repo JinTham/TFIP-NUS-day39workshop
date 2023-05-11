@@ -36,21 +36,21 @@ public class CharacterRestController {
     public ResponseEntity<String> getCharacters(
         @RequestParam(required=true) String charName,
         @RequestParam(required=true) Integer limit,
-        @RequestParam(required=true) Integer offset ) {
-        Optional<List<MarvelCharacter>> opt = this.charSvc.getCharacters(charName, limit, offset);
-        List<MarvelCharacter> mcList = opt.get();
-        JsonArrayBuilder arrBld = Json.createArrayBuilder();
-        for (MarvelCharacter mc : mcList) {
-            arrBld.add(mc.toJSON());
-        }
-        JsonArray result = arrBld.build();
-        return ResponseEntity.status(HttpStatus.OK)
-                                .contentType(MediaType.APPLICATION_JSON)
-                                .body(result.toString());
+        @RequestParam(required=true) Integer offset) {
+        Optional<List<MarvelCharacter>> or = this.charSvc.getCharacters(charName, limit, offset);
+        List<MarvelCharacter> results = or.get();
+        JsonArrayBuilder arrBuilder = Json.createArrayBuilder();
+        for (MarvelCharacter mc : results)
+            arrBuilder.add(mc.toJSON());
+        JsonArray result = arrBuilder.build();
+        return ResponseEntity
+            .status(HttpStatus.OK)
+            .contentType(MediaType.APPLICATION_JSON)
+            .body(result.toString());
     }
 
     @GetMapping(path="/{charId}")
-    public ResponseEntity<String> getCharacterDetails(@PathVariable(required = true) String charId) throws IOException {
+    public ResponseEntity<String> getCharacterDetails(@PathVariable(required=true) String charId) throws IOException {
         MarvelCharacter mc = this.charSvc.getCharacterDetails(charId);
         JsonObject jo = Json.createObjectBuilder()
             .add("details",mc.toJSON()).build();
